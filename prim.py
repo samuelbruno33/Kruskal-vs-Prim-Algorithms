@@ -12,7 +12,7 @@ class Prim:
             total_cost += node.length_from_previous_node
         return total_cost
 
-    def mst_prim(self):
+    def mstPrim(self):
         # Inizializza la lunghezza del nodo di partenza a 0
         selected_node = self.graph.findNode(self.start)
         selected_node.length_from_previous_node = 0

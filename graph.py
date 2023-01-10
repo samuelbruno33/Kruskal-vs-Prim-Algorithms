@@ -12,10 +12,10 @@ class Node:
         self.previous_node = None
         self.visited = False
 
-    # def hasNeighbours(self):
-    #     if len(self.neighbours) == 0:
-    #         return False
-    #     return True
+    def hasNeighbours(self):
+        if len(self.neighbours) == 0:
+            return False
+        return True
     #
     # def numberOfNeighbours(self):
     #     return len(self.neighbours)
@@ -25,48 +25,31 @@ class Node:
 
     def __eq__(self, other):
         """
-            Determines if two nodes are equal or not, checking their values
-            Parameters
-            ----------
-                other: Node:
-                    Represent the other node with which the current node is compared
-            Returns
-            -------
-                Boolean
+            Determina l'equivalenza tra due nodi (equal)
+            ---------------------------------------------
+            Override dell'operazione di base, mi serve per l'operazione di sort dei vertici nel calcolo del mst di Prim
         """
         return self.value == other.value
 
     def __gt__(self, other):
         """
-            Determines which of the two nodes are greater than the other,
-            comparing the length from the previous node for each of them.
-            Parameters
-            ----------
-                other: Node:
-                    Represent the other node with which the current node is compared
-            Returns
-            -------
-                Boolean
+            Determina quale nodo è più grande (greater)
+            --------------------------------------------
+            Override dell'operazione di base, mi serve per l'operazione di sort dei vertici nel calcolo del mst di Prim
         """
         return self.length_from_previous_node > other.length_from_previous_node
 
-    def printPreviousAndCurrentNode(self):
+    def printNodesPrim(self):
         return f"{self.previous_node} -> {self.value}"
 
-    # def __eq__(self, other):
-    #     if isinstance(other, Node):
-    #         return self.value == other.value
-    #     return self.value == other
-    #
-    # def __str__(self):
-    #     returned_string = ""
-    #     if self.has_neighbors():
-    #         for neighboor in self.neighbors:
-    #             returned_string += f"{self.value} -> {neighboor[0].value} "
-    #     else:
-    #         returned_string += f"{self.value} -> None"
-    #
-    #     return returned_string
+    def printNodesKruskal(self):
+        returned_string = ""
+        if self.hasNeighbours():
+            for neighbour in self.neighbours:
+                returned_string += f"{self.value} -> {neighbour[0].value} "
+        else:
+            returned_string += f"{self.value} -> None"
+        return returned_string
 
 
 class Graph:
@@ -107,8 +90,8 @@ class Graph:
     #             return True
     #     return False
 
-    # def printAll(self):
-    #     graph = ""
-    #     for node in self.nodes:
-    #         graph += f"{node.printPreviousAndCurrentNode()}\n"
-    #     return graph
+    def printKruskalGraph(self):
+        graph = ""
+        for node in self.nodes:
+            graph += f"{node.printNodesKruskal()}\n"
+        return graph
