@@ -8,6 +8,10 @@ class Edge:
         self.weight = weight
 
     def __gt__(self, other):
+        """
+        Tutti i metodi che iniziano come questo, quindi con le due linee basse a inizio e fine sono chiamti
+        'dunder methods', o anche chiamati 'magic methods'.
+        """
         return self.weight > other.weight
 
     def __lt__(self, other):
@@ -28,11 +32,10 @@ class Kruskal:
         # Aggiunge tutti i nodi al nuovo albero
         for node in self.graph.nodes:
             self.tree.addNode(node)
-
         # Per ogni vertice del grafo creo un set e li salvo nella lista sets
         self.sets = [set(node.value) for node in self.graph.nodes]
         self.edges = []
-        self.number_of_vertices = len(graph.nodes)
+        self.number_of_vertices = len(self.graph.nodes)
         # Ordino gli archi in base al loro peso
         self.sortEdges()
         # Rimuove gli archi dai nodi nell'albero

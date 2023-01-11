@@ -16,7 +16,7 @@ class Node:
         if len(self.neighbours) == 0:
             return False
         return True
-    #
+
     # def numberOfNeighbours(self):
     #     return len(self.neighbours)
 
@@ -81,14 +81,14 @@ class Graph:
     # def numberOfNodes(self):
     #     return len(self.nodes)
 
-    # def areConnected(self, node1, node2):
-    #     node1 = self.findNode(node1)
-    #     node2 = self.findNode(node2)
-    #
-    #     for neighbour in node1.neighbours:
-    #         if neighbour[0].value == node2.value:
-    #             return True
-    #     return False
+    def areConnected(self, node1, node2):
+        first = self.findNode(node1)
+        second = self.findNode(node2)
+
+        for neighbour in first.neighbours:
+            if neighbour[0].value == second.value:
+                return True
+        return False
 
     def printKruskalGraph(self):
         graph = ""
