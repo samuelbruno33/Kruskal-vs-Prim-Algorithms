@@ -6,12 +6,13 @@ import math
 
 
 def main():
-
     arr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "L", "M", "N", "O"]
-    graph = Graph()
 
     rand_graph_size = random.randint(3, 4)
     print("Size del grafo: ", rand_graph_size, "\n")
+
+    graph = Graph()
+    graph2 = Prim(rand_graph_size)
 
     for i in range(rand_graph_size):
         graph.addNode(Node(arr[i]))
@@ -28,7 +29,8 @@ def main():
             """ TODO: non fare nulla """
         else:
             weight = random.randint(1, rand_graph_size)
-            graph.addEdge(x, y, weight)
+            graph.addEdgeKruskal(x, y, weight)
+            graph2.addEdgePrim(index1, index2, weight)
             i += 1
 
     mst_kruskal = Kruskal(graph)
@@ -39,12 +41,16 @@ def main():
 
     print("\n")
 
-    mst_prim = Prim(graph, "A")
-    tree = mst_prim.mstPrim()
-    print("MST di Prim:")
-    for node in tree:
-        print(node.printNodesPrim())
-    print("\nCosto totale Prim: ", mst_prim.calculateTotalCost())
+    # # Prim con rappresentazione del grafo come albero
+    # mst_prim = prim.Prim(graph, "A")
+    # tree = mst_prim.mstPrimTree()
+    # print("MST di Prim:")
+    # for node in tree:
+    #     print(node.printNodesPrim())
+    # print("\nCosto totale Prim: ", mst_prim.calculateTotalCost())
+
+    # # Prim con rappresentazione min heap
+    graph2.mstPrimHeap()
 
 
 if __name__ == '__main__':

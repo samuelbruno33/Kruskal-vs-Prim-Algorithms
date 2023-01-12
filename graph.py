@@ -39,8 +39,9 @@ class Node:
         """
         return self.length_from_previous_node > other.length_from_previous_node
 
-    def printNodesPrim(self):
-        return f"{self.previous_node} -> {self.value}"
+    # # Stampa Prim, con struttura ad albero
+    # def printNodesPrim(self):
+    #     return f"{self.previous_node} -> {self.value}"
 
     def printNodesKruskal(self):
         returned_string = ""
@@ -50,6 +51,29 @@ class Node:
         else:
             returned_string += f"{self.value} -> None"
         return returned_string
+
+
+class Edge:
+    def __init__(self, node1, node2, weight):
+        self.node1 = node1
+        self.node2 = node2
+        self.weight = weight
+
+    def __gt__(self, other):
+        """
+        Tutti i metodi che iniziano come questo, quindi con le due linee basse a inizio e fine sono chiamti
+        'dunder methods', o anche chiamati 'magic methods'.
+        """
+        return self.weight > other.weight
+
+    def __lt__(self, other):
+        return self.weight < other.weight
+
+    def __eq__(self, other):
+        return self.weight == other.weight
+
+    def __str__(self):
+        return f"{self.node1.value} {self.node2.value} {self.weight}"
 
 
 class Graph:
@@ -68,7 +92,7 @@ class Graph:
                 return node
         return None
 
-    def addEdge(self, value1, value2, weight=1):
+    def addEdgeKruskal(self, value1, value2, weight=1):
         node1 = self.findNode(value1)
         node2 = self.findNode(value2)
 

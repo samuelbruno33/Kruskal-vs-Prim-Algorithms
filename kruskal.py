@@ -1,27 +1,4 @@
-from graph import Graph
-
-
-class Edge:
-    def __init__(self, node1, node2, weight):
-        self.node1 = node1
-        self.node2 = node2
-        self.weight = weight
-
-    def __gt__(self, other):
-        """
-        Tutti i metodi che iniziano come questo, quindi con le due linee basse a inizio e fine sono chiamti
-        'dunder methods', o anche chiamati 'magic methods'.
-        """
-        return self.weight > other.weight
-
-    def __lt__(self, other):
-        return self.weight < other.weight
-
-    def __eq__(self, other):
-        return self.weight == other.weight
-
-    def __str__(self):
-        return f"{self.node1.value} {self.node2.value} {self.weight}"
+from graph import Graph, Edge
 
 
 class Kruskal:
@@ -89,7 +66,7 @@ class Kruskal:
                 inserted_edges += 1
                 total_cost += selected_edge.weight
                 self.union_set(set1, set2)
-                self.tree.addEdge(selected_edge.node1.value, selected_edge.node2.value, selected_edge.weight)
+                self.tree.addEdgeKruskal(selected_edge.node1.value, selected_edge.node2.value, selected_edge.weight)
             # Controllo se il numero degli archi inseriti è uguale a |V| - 1
             if inserted_edges == self.number_of_vertices - 1:
                 return self.tree, total_cost
