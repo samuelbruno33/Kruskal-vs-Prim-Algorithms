@@ -40,8 +40,11 @@ class Node:
         return self.length_from_previous_node > other.length_from_previous_node
 
     # # Stampa Prim, con struttura ad albero
-    # def printNodesPrim(self):
+    # def printNodes(self):
     #     return f"{self.previous_node} -> {self.value}"
+
+    def printSingleNode(self):
+        return f"{self.value}"
 
     def printNodesKruskal(self):
         returned_string = ""
@@ -72,8 +75,8 @@ class Edge:
     def __eq__(self, other):
         return self.weight == other.weight
 
-    def __str__(self):
-        return f"{self.node1.value} {self.node2.value} {self.weight}"
+    # def printEdge(self):
+    #     return f"{self.node1.value} {self.node2.value} {self.weight}"
 
 
 class Graph:
@@ -82,6 +85,7 @@ class Graph:
             self.nodes = []
         else:
             self.nodes = nodes
+        self.edges = []
 
     def addNode(self, node):
         self.nodes.append(node)
@@ -99,9 +103,12 @@ class Graph:
         if (node1 is not None) and (node2 is not None):
             node1.addNeighbour((node2, weight))
             node2.addNeighbour((node1, weight))
+            self.edges.append(Edge(node1, node2, weight))
+            self.edges.append(Edge(node2, node1, weight))
         else:
             raise Exception("Errore: uno o più nodi non trovati!")
 
+    # # Metodo che non serve più
     # def numberOfNodes(self):
     #     return len(self.nodes)
 
