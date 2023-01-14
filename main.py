@@ -2,6 +2,7 @@
 # from old_graph import Graph, Node
 from graph import Graph, Node
 from prim import Prim
+from kruskal import Kruskal
 from collections import defaultdict
 import random
 import math
@@ -14,6 +15,7 @@ def main():
     print("Size del grafo: ", rand_graph_size, "\n")
 
     graph = Graph()
+    graph2 = []
 
     for i in range(rand_graph_size):
         graph.addNode(Node(arr[i]))
@@ -30,22 +32,25 @@ def main():
             """ TODO: non fare nulla """
         else:
             weight = random.randint(1, rand_graph_size)
-            print("x: ", x)
-            print("y: ", y)
-            print("weight: ", weight)
             graph.addEdgeKruskal(x, y, weight)
+            graph2.append((index1, index2, weight))
+            graph2.append((index2, index1, weight))
             i += 1
 
+    mst_kruskal = Kruskal()
+    print("MST di Kruskal:")
+    mst1, cost = mst_kruskal.mstKruskal(graph2)
+    print(mst1)
+    print("\nCosto totale Kruskal: ", cost)
+
     i = 0
-    graphConvert = []   # Converto il grafo originale in una lista con all'interno una tupla con (nodo1, nodo2, peso)
+    graphConvert = []  # Converto il grafo originale in una lista con all'interno una tupla con (nodo1, nodo2, peso)
     while i < graph.edges.__len__():
         graphConvert.insert(i, list(zip(graph.edges[i].node1.value, graph.edges[i].node2.value,
                                         [graph.edges[i].weight])))
         i += 1
 
-    print(graphConvert)
-
-    g = defaultdict(dict)    # Inserisco la lista in un dizionario per renderlo leggibile alla funzione mstPrim
+    g = defaultdict(dict)  # Inserisco la lista in un dizionario per renderlo leggibile alla funzione mstPrim
     for edge in graphConvert:
         first, second, weight = edge[0]
         g[first][second] = weight
@@ -53,9 +58,9 @@ def main():
 
     mst_prim = Prim(g)
     print("MST di Prim:")
-    mst, primCost = mst_prim.mstPrim(first)
-    mst = dict(mst)
-    print(mst)
+    mst2, primCost = mst_prim.mstPrim(first)
+    mst2 = dict(mst2)
+    print(mst2)
     print("\nCosto totale Prim: ", primCost)
 
 
