@@ -12,7 +12,7 @@ class Kruskal:
         # Per ogni vertice del grafo creo un set e li salvo nella lista sets
         self.sets = [set(node.value) for node in self.graph.nodes]
         self.edges = []
-        self.number_of_vertices = len(self.graph.nodes)
+        self.number_of_vertices = self.graph.numberOfNodes()
         # Ordino gli archi in base al loro peso
         self.sortEdges()
         # Rimuove gli archi dai nodi nell'albero
@@ -52,8 +52,11 @@ class Kruskal:
         # Inizializzo i valori
         inserted_edges = 0
         total_cost = 0
-        while True:
+        count = 0
+
+        while count < self.edges.__len__():
             # Prendo l'arco con il valore minimo
+            count += 1
             selected_edge = self.edges.pop(0)
 
             set1 = self.find_set(selected_edge.node1)
@@ -64,9 +67,10 @@ class Kruskal:
             if set1 != set2:
                 # Aggiorno i valori
                 inserted_edges += 1
+                print(inserted_edges)
                 total_cost += selected_edge.weight
                 self.union_set(set1, set2)
                 self.tree.addEdgeKruskal(selected_edge.node1.value, selected_edge.node2.value, selected_edge.weight)
             # Controllo se il numero degli archi inseriti è uguale a |V| - 1
-            if inserted_edges == self.number_of_vertices - 1:
-                return self.tree, total_cost
+            #if inserted_edges == self.number_of_vertices - 1:
+        return self.tree, total_cost

@@ -75,8 +75,8 @@ class Edge:
     def __eq__(self, other):
         return self.weight == other.weight
 
-    # def printEdge(self):
-    #     return f"{self.node1.value} {self.node2.value} {self.weight}"
+    def printEdge(self):
+        return f"{self.node1.value} {self.node2.value} {self.weight}"
 
 
 class Graph:
@@ -85,7 +85,7 @@ class Graph:
             self.nodes = []
         else:
             self.nodes = nodes
-        self.edges = []
+        self.graph_edges = []
 
     def addNode(self, node):
         self.nodes.append(node)
@@ -103,14 +103,13 @@ class Graph:
         if (node1 is not None) and (node2 is not None):
             node1.addNeighbour((node2, weight))
             node2.addNeighbour((node1, weight))
-            self.edges.append(Edge(node1, node2, weight))
-            self.edges.append(Edge(node2, node1, weight))
+            self.graph_edges.append(Edge(node1, node2, weight))
+            self.graph_edges.append(Edge(node2, node1, weight))
         else:
             raise Exception("Errore: uno o più nodi non trovati!")
 
-    # # Metodo che non serve più
-    # def numberOfNodes(self):
-    #     return len(self.nodes)
+    def numberOfNodes(self):
+        return len(self.nodes)
 
     def areConnected(self, node1, node2):
         first = self.findNode(node1)

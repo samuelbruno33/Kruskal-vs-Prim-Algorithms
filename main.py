@@ -1,15 +1,16 @@
 from graph import Graph, Node
 from prim import Prim
 from kruskal import Kruskal
+
 from collections import defaultdict
 import random
 import math
 
 
 def main():
-    arr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "L", "M", "N", "O"]
+    arr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "Z"]
 
-    rand_graph_size = random.randint(4, 5)
+    rand_graph_size = random.randint(18, 19)
     print("Size del grafo: ", rand_graph_size, "\n")
 
     graph = Graph()
@@ -38,20 +39,11 @@ def main():
     print(mst.printKruskalGraph())
     print("Costo totale Kruskal: ", total_cost, "\n")
 
-    # # Prim con rappresentazione del grafo come albero
-    # mst_prim = prim.Prim(graph, "A")
-    # tree = mst_prim.mstPrimTree()
-    # print("MST di Prim:")
-    # for node in tree:
-    #     print(node.printNodesPrim())
-    # print("\nCosto totale Prim: ", mst_prim.calculateTotalCost())
-
-    # # Prim con rappresentazione min heap
     i = 0
     graphConvert = []   # Converto il grafo originale in una lista con all'interno una tupla con (nodo1, nodo2, peso)
-    while i < graph.edges.__len__():
-        graphConvert.insert(i, list(zip(graph.edges[i].node1.printSingleNode(), graph.edges[i].node2.printSingleNode(),
-                                        [graph.edges[i].weight])))
+    while i < graph.graph_edges.__len__():
+        graphConvert.insert(i, list(zip(graph.graph_edges[i].node1.printSingleNode(), graph.graph_edges[i].node2.printSingleNode(),
+                                        [graph.graph_edges[i].weight])))
         i += 1
 
     g = defaultdict(dict)    # Inserisco la lista in un dizionario per renderlo leggibile alla funzione mstPrim
