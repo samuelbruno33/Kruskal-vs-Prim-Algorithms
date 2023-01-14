@@ -28,7 +28,7 @@ class Kruskal:
         edges = []
         for i in points:
             edges.append((i[2], i[0], i[1]))
-            
+
         edges.sort()
 
         cost = 0

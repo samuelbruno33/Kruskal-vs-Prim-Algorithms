@@ -1,5 +1,3 @@
-# from old_kruskal import Kruskal
-# from old_graph import Graph, Node
 from graph import Graph, Node
 from prim import Prim
 from kruskal import Kruskal
