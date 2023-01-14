@@ -1,4 +1,4 @@
-from graph import Graph, Edge
+from old_graph import Graph, Edge
 
 
 class Kruskal:
@@ -52,11 +52,9 @@ class Kruskal:
         # Inizializzo i valori
         inserted_edges = 0
         total_cost = 0
-        count = 0
 
-        while count < self.edges.__len__():
+        while True:
             # Prendo l'arco con il valore minimo
-            count += 1
             selected_edge = self.edges.pop(0)
 
             set1 = self.find_set(selected_edge.node1)
@@ -67,10 +65,16 @@ class Kruskal:
             if set1 != set2:
                 # Aggiorno i valori
                 inserted_edges += 1
-                print(inserted_edges)
                 total_cost += selected_edge.weight
                 self.union_set(set1, set2)
                 self.tree.addEdgeKruskal(selected_edge.node1.value, selected_edge.node2.value, selected_edge.weight)
             # Controllo se il numero degli archi inseriti è uguale a |V| - 1
-            #if inserted_edges == self.number_of_vertices - 1:
-        return self.tree, total_cost
+            if inserted_edges == self.number_of_vertices - 1:
+                return self.tree, total_cost
+
+# # IN MAIN:
+# mst_kruskal = Kruskal(graph)
+# mst, total_cost = mst_kruskal.mstKruskal()
+# print("MST di Kruskal:")
+# print(mst.printKruskalGraph())
+# print("Costo totale Kruskal: ", total_cost, "\n")
