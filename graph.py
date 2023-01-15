@@ -9,11 +9,6 @@ class Node:
     def addNeighbour(self, neighbour):
         self.neighbours.append(neighbour)
 
-    def hasNeighbours(self):
-        if len(self.neighbours) == 0:
-            return False
-        return True
-
 
 class Edge:
     def __init__(self, node1, node2, weight):
@@ -48,14 +43,14 @@ class Graph:
                 return True
         return False
 
-    def addEdgeKruskal(self, value1, value2, weight=1):
+    def addEdge(self, value1, value2, weight=1):
         node1 = self.findNode(value1)
         node2 = self.findNode(value2)
 
         if (node1 is not None) and (node2 is not None):
-            node1.addNeighbour((node2, weight))
+            node1.addNeighbour((node2, weight))     # Nodi di controllo per check di inserimento
             node2.addNeighbour((node1, weight))
-            self.edges.append(Edge(node1, node2, weight))
+            self.edges.append(Edge(node1, node2, weight))  # Aggiungo archi per convertire lista in dizionario per Prim (graphConvert)
             self.edges.append(Edge(node2, node1, weight))
         else:
             raise Exception("Errore: uno o più nodi non trovati!")
