@@ -35,11 +35,11 @@ class Graph:
         return None
     
     def areConnected(self, node1, node2):
-        first = self.findNode(node1)
-        second = self.findNode(node2)
+        u = self.findNode(node1)
+        v = self.findNode(node2)
 
-        for neighbour in first.neighbours:
-            if neighbour[0].value == second.value:
+        for neighbour in u.neighbours:      # Controllo se nei vicini del primo nodo sia presente il seconod nodo
+            if neighbour[0].value == v.value:
                 return True
         return False
 
@@ -48,9 +48,9 @@ class Graph:
         node2 = self.findNode(value2)
 
         if (node1 is not None) and (node2 is not None):
-            node1.addNeighbour((node2, weight))     # Nodi di controllo per check di inserimento
+            node1.addNeighbour((node2, weight))     # Nodi di controllo per check di inserimento nel grafo
             node2.addNeighbour((node1, weight))
             self.edges.append(Edge(node1, node2, weight))  # Aggiungo archi per convertire lista in dizionario per Prim (graphConvert)
-            self.edges.append(Edge(node2, node1, weight))
+            self.edges.append(Edge(node2, node1, weight))  # Essendo grafo non diretto
         else:
             raise Exception("Errore: uno o più nodi non trovati!")
