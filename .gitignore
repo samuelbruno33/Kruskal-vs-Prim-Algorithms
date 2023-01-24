@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+old_graph.py
+old_kruskal.py
+old_prim.py
