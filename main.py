@@ -1,5 +1,5 @@
 from graph import Graph, Node
-from prim import Prim
+from primHeapq import Prim
 from kruskal import Kruskal
 from collections import defaultdict
 import time
