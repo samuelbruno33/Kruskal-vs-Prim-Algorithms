@@ -1,5 +1,6 @@
 from graph import Graph, Node
-from primHeapq import Prim
+from primHeapq import PrimHeapq
+from primMinHeap import PrimMinHeap
 from kruskal import Kruskal
 from collections import defaultdict
 import time
@@ -12,20 +13,21 @@ def main():
     arr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
            "W", "X", "Y", "Z"]
 
-    rand_graph_size = 3
+    rand_graph_size = 4
 
     times = []
     times2 = []
+    times3 = []
     size = []
 
     plt.xlabel("No. di elementi")
     plt.ylabel("Tempo di computazione")
 
-    print(arr.__len__())
-
     while rand_graph_size <= arr.__len__():
+
         graph = Graph()
         graph2 = []
+        graph3 = PrimMinHeap(rand_graph_size)
 
         size.append(rand_graph_size)
 
@@ -42,10 +44,15 @@ def main():
                 """ TODO: non fare nulla """
             else:
                 weight = random.randint(1, rand_graph_size)
-                graph.addEdge(x, y, weight)     # Per grafo di Prim
-                graph2.append((index1, index2, weight))     # Per grafo di Kruskal
-                graph2.append((index2, index1, weight))     # Essendo grafo non diretto
+                graph.addEdge(x, y, weight)  # Per grafo di Prim con Heapq
+                graph2.append((index1, index2, weight))  # Per grafo di Kruskal
+                graph2.append((index2, index1, weight))  # Essendo grafo non diretto
                 i += 1
+
+        j = 0
+        while j < rand_graph_size - 1:
+            graph3.addToGraph(j, int(random.randint(j + 1, rand_graph_size - 1)), int(random.randint(1, 20)))
+            j += 1
 
         # # Stampa di Kruskal
         # mst_kruskal = Kruskal()
@@ -60,6 +67,13 @@ def main():
         mst_kruskal.mstKruskal(graph2)
         end_time = time.process_time() - start_time
         times.append(end_time)
+        """----------------------------"""
+
+        """----------- PRIM CON MIN-HEAP-----------"""
+        start_time = time.process_time()
+        graph3.mstPrimMinHeap()
+        end_time = time.process_time() - start_time
+        times2.append(end_time)
         """----------------------------"""
 
         i = 0
@@ -82,20 +96,20 @@ def main():
         # mst2, primCost = mst_prim.mstPrim(g, u)
         # mst2 = dict(mst2)
         # print(mst2)
-        # print("\nCosto totale Prim: ", primCost)
+        # print("\nCosto totale Prim: ", primCost, "\n")
 
-        """------------ PRIM ------------"""
+        """------------ PRIM CON HEAPQ ------------"""
         start_time = time.process_time()
-        mst_prim = Prim()
+        mst_prim = PrimHeapq()
         mst_prim.mstPrim(g, u)
         end_time = time.process_time() - start_time
-        times2.append(end_time)
+        times3.append(end_time)
         """----------------------------"""
 
         rand_graph_size += 1
 
     plt.plot(size, times, marker="o", color='red')  # In rosso Kruskal
-    plt.plot(size, times2, marker="o", color='blue')    # In blu Prim
+    plt.plot(size, times3, marker="o", color='blue')    # In blu Prim con Heapq
     plt.show()
 
 

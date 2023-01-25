@@ -2,7 +2,8 @@ from collections import defaultdict
 import heapq
 
 
-class Prim:
+class PrimHeapq:
+
     def __init__(self):
         pass
 

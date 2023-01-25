@@ -1,7 +1,10 @@
 class UnionFind:
     def __init__(self, n):
-        self.parents = {i: i for i in range(0, n)}  # set che rappresenta un puntatore/indice al padre di un nodo
+        self.parents = {i: i for i in range(0, n)}  # set che rappresenta un puntatore al padre di un nodo e funge da make
         self.groups = n     # Rappresenta la dimensione della collezione
+
+    # def make(self, x):
+    #     self.parents[x] = x
 
     def find(self, x):
         if self.parents[x] == x:
@@ -28,7 +31,12 @@ class Kruskal:
         pass
 
     def mstKruskal(self, graph):
-        n = len(graph)
+        n = round(len(graph) / 2)
+        union_find = UnionFind(n)
+
+        # for i in graph:
+        #     union_find.make(i[0])
+
         edges = []
         for i in graph:
             edges.append((i[2], i[0], i[1]))    # Inserisco nella lista degli archi: peso, nodo1, nodo2
@@ -37,7 +45,6 @@ class Kruskal:
 
         cost = 0
         mst = []
-        union_find = UnionFind(n)
         for weight, u, v in edges:
             if union_find.find(u) != union_find.find(v):    # Se non sono nello stess Set allora non formano un ciclo
                 union_find.union(u, v)      # Unisco i due Set in un unico solo
