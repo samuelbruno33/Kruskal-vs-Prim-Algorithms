@@ -112,10 +112,10 @@ class PrimMinHeap:
                     parent[v] = u
                     minHeap.decreaseKey(v, key[v])
 
-        #self.printAll(parent, self.V, key)
+        self.printAll(parent, self.V, key)
 
-    # def printAll(self, parent, n, key, count=0):
-    #     for i in range(1, n):
-    #         print("%d - %d" % (parent[i], i))
-    #         count += key[i]
-    #     print("\nCosto totale Prim: ", count, "\n")
+    def printAll(self, parent, n, key, count=0):
+        for i in range(1, n):
+            print("%d - %d" % (parent[i], i))
+            count += key[i]
+        print("\nCosto totale Prim: ", count, "\n")

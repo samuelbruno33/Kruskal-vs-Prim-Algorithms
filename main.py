@@ -13,7 +13,7 @@ def main():
     arr = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
            "W", "X", "Y", "Z"]
 
-    rand_graph_size = 4
+    rand_graph_size = 3
 
     times = []
     times2 = []
@@ -109,7 +109,8 @@ def main():
         rand_graph_size += 1
 
     plt.plot(size, times, marker="o", color='red')  # In rosso Kruskal
-    plt.plot(size, times3, marker="o", color='blue')    # In blu Prim con Heapq
+    plt.plot(size, times2, marker="o", color='green')  # In verde Prim con min-heap
+    plt.plot(size, times3, marker="o", color='blue')  # In blu Prim con Heapq
     plt.show()
 
 
