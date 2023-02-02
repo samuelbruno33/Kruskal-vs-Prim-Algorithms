@@ -25,9 +25,9 @@ def main():
 
     while rand_graph_size <= arr.__len__():
 
-        graph = Graph()
-        graph2 = []
-        graph3 = PrimMinHeap(rand_graph_size)
+        graph = Graph()     # Prim con heapq
+        graph2 = []     # Kruskal
+        graph3 = PrimMinHeap(rand_graph_size)   # Prim con min-heap
 
         size.append(rand_graph_size)
 
@@ -51,7 +51,7 @@ def main():
 
         j = 0
         while j < rand_graph_size - 1:
-            graph3.addToGraph(j, int(random.randint(j + 1, rand_graph_size - 1)), int(random.randint(1, 20)))
+            graph3.addToGraph(j, int(random.randint(j + 1, rand_graph_size - 1)), int(random.randint(1, 20)))   # Per Prim con min-heap
             j += 1
 
         # # Stampa di Kruskal

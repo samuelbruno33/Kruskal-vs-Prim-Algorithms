@@ -60,7 +60,7 @@ class Heap:
         while i > 0 and self.array[i][1] < self.array[(i - 1) // 2][1]:
             self.pos[self.array[i][0]] = (i - 1) / 2
             self.pos[self.array[(i - 1) // 2][0]] = i
-            self.swapMinHeapNode(i, (i - 1) // 2)
+            self.swapMinHeapNode(i, (i - 1) // 2)   # Si sposta il valore verso sopra
 
             i = (i - 1) // 2
             
@@ -108,14 +108,14 @@ class PrimMinHeap:
 
                 v = i[0]
                 if minHeap.isInMinHeap(v) and i[1] < key[v]:
-                    key[v] = i[1]
-                    parent[v] = u
-                    minHeap.decreaseKey(v, key[v])
+                    key[v] = i[1]   # qui ci vanno i pesi degli archi per mst
+                    parent[v] = u   # qui si inseriscono i nodi per mst
+                    minHeap.decreaseKey(v, key[v])  # Aggiorna il valore dei vertici adiacenti di v
 
-        self.printAll(parent, self.V, key)
+        # self.printAll(parent, self.V, key)
 
-    def printAll(self, parent, n, key, count=0):
-        for i in range(1, n):
-            print("%d - %d" % (parent[i], i))
-            count += key[i]
-        print("\nCosto totale Prim: ", count, "\n")
+    # def printAll(self, parent, n, key, count=0):
+    #     for i in range(1, n):
+    #         print("%d - %d" % (parent[i], i))
+    #         count += key[i]
+    #     print("\nCosto totale Prim: ", count, "\n")

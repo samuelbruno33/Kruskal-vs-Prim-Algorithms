@@ -1,5 +1,6 @@
 class UnionFind:
     def __init__(self, n):
+        # self.parents = {}
         self.parents = {i: i for i in range(0, n)}  # set che rappresenta un puntatore al padre di un nodo e funge da make
         self.groups = n     # Rappresenta la dimensione della collezione
 
