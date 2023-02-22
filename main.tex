@@ -1,0 +1,228 @@
+\documentclass{article}
+
+% If you're new to LaTeX, here's some short tutorials:
+% https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes
+% https://en.wikibooks.org/wiki/LaTeX/Basics
+
+% Formatting
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage[titletoc,title]{appendix}
+
+% Math
+% https://www.overleaf.com/learn/latex/Mathematical_expressions
+% https://en.wikibooks.org/wiki/LaTeX/Mathematics
+\usepackage{amsmath,amsfonts,amssymb,mathtools}
+
+% Images
+% https://www.overleaf.com/learn/latex/Inserting_Images
+% https://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions
+\usepackage{graphicx,float}
+
+% Tables
+% https://www.overleaf.com/learn/latex/Tables
+% https://en.wikibooks.org/wiki/LaTeX/Tables
+
+% Algorithms
+% https://www.overleaf.com/learn/latex/algorithms
+% https://en.wikibooks.org/wiki/LaTeX/Algorithms
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{algorithmic}
+
+% Code syntax highlighting
+% https://www.overleaf.com/learn/latex/Code_Highlighting_with_minted
+\usepackage{minted}
+\usemintedstyle{borland}
+
+% References
+% https://www.overleaf.com/learn/latex/Bibliography_management_in_LaTeX
+% https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management
+\usepackage{biblatex}
+\addbibresource{references.bib}
+
+% For reffering to an item list
+\usepackage{enumitem}
+
+% For colors lol
+\usepackage{xcolor}
+
+
+% Title content
+\title{Algoritmo di Kruskal vs Algoritmo di Prim \\
+       \large Laboratorio di Algoritmi - Esercizio E}
+\author{Samuel Bruno}
+\date{3 Dicembre 2022}
+
+\begin{document}
+
+\maketitle
+
+% Abstract
+\begin{abstract}
+L'obiettivo di questa relazione è quello di analizzare le differenze tra l'algoritmo di Kruskal con struttura dati Union-Find e l'algoritmo di Prim con code di priorità.
+\end{abstract}
+
+% Introduzione
+\section{Introduzione}
+Gli algoritmi di \textbf{Kruskal} e \textbf{Prim} sono algoritmi ottimi utilizzati per calcolare l'albero di copertura minimo (o anche MST, Minimum Spanning Tree) di un grafo non orientato. 
+Sono algoritmi cosidetti "greedy", ovvero, algoritmi che effettuano tante scelte ottime locali
+sperando di ottenere una soluzione ottima
+globale. \\
+Si consideri un grafo non orientato e connesso dove V rappresenta il numero di nodi ed E il numero di archi. Ad ogni arco è associato un peso: lo scopo dei due algoritmi è quello di trovare un albero ricoprente di peso minimo, cioè quello in cui la somma dei pesi sia minima. 
+
+\textbf{L'algoritmo di Kruskal}, consiste in 3 passi:
+\begin{enumerate}[label={\roman*.)}, ref={\roman*.)}]
+    \item Mantiene una foresta, cioè un insieme di alberi: inizialmente ogni albero è un nodo isolato.
+    Inoltre gli archi vengono ordinati in ordine crescente di costo;
+    \item Successivamente viene analizzato ogni arco singolarmente, inserendo nella soluzione un arco sicuro, ovvero, l’arco più leggero che non forma cicli con gli archi precedentemente selezionati (quindi archi presenti in alberi differenti) e lo aggiunge alla foresta. Il numero di alberi della foresta viene così decrementato di uno senza introdurre cicli;
+    \item Quando non ci sono più archi che connettono alberi differenti, l’algoritmo termina. La foresta contiene di conseguenza un unico albero che è anche l'albero di copertura minimo.
+\end{enumerate}
+\textbf{L'algoritmo di Prim}, invece, lavora in questo modo:
+\begin{enumerate}[label={\roman*.)}, ref={\roman*.)}]
+    \item L'algoritmo parte da un albero che contiene, in quel momento, un unico nodo radice;
+    \item Ad ogni passo, l’algoritmo aggiunge, come arco sicuro, l’arco più leggero che connette un nodo dell’albero costruito con un nodo del grafo non presente nell’albero.
+    \item L'algoritmo termina quando non esistono più nodi del grafo non presenti nell’albero costruito. L’albero così ottenuto è un MST.
+\end{enumerate}
+Il confronto verrà effettuato proprio sull'applicazione dei seguenti algoritmi. In particolare, verranno analizzati, attraverso un grafico che sintetizza il loro costo computazionale al variare del numero di nodi presenti nel grafo.
+Date le basi, possiamo procedere a descriverne la struttura dati.
+
+%  Strutture dati degli algoritmi
+\section{Struttura dati}
+L'algoritmo di \textbf{Kruskal} viene solitamente rappresentato attraverso la struttura dati \textbf{Union-Find}. Questa è una struttura che mantiene una collezione $S = { S1 , S2 , ..., Sk }$ di \textbf{insiemi dinamici disgiunti}.
+Ciascun insieme è identificato da un \textbf{rappresentante} (che è un elemento dell’insieme) ed ogni elemento è rappresentato da un oggetto \textbf{x}.\\
+Definiamo le operazioni dell'algoritmo:
+\begin{enumerate}[label={\roman*.)}, ref={\roman*.)}]
+    \item \textbf{Union(x,y):} Unisce due diversi sottoinsiemi in un unico sottoinsieme ed elimina i due sottoinsiemi dalla collezione S.
+    \item \textbf{Find(x):} Determina in quale sottoinsieme si trova l'elemento x e restituisce il rappresentante di quell' insieme.
+    \item \textbf{MakeSet(x):} Crea un nuovo insieme il cui unico elemento e rappresentante, è x.
+\end{enumerate}
+
+Per quanto riguarda \textbf{Prim} la struttura adottata è quella dell'\textbf{Heap}, in particolare il \textbf{min-heap}. Un heap binario è una struttura dati composta da un array che può essere considerato come un albero binario quasi completo. Ad ogni nodo dell’albero corrisponde un elemento dell’array che memorizza il valore del nodo, mentre con albero quasi completo si intende che tutti i livelli, tranne l’ultimo, sono completi: possono mancare solo alcune foglie consecutive a partire dall’ultima foglia a destra.
+Per rappresentare un min-heap ogni valore del nodo deve soddisfare la seguente proprietà: ogni nodo \textit{i} diverso dalla radice è tale che $A[parent[i]] \leq A[i].$
+Supporta le seguenti operazioni principali:
+\begin{enumerate}[label={\roman*.)}, ref={\roman*.)}]
+    \item \textbf{Insert(A,x):} Inserisce l'elemento x in A.
+    \item \textbf{Minimum(A):} Restituisce l’elemento di A con chiave minima.
+    \item \textbf{Extract-Min(A):} Elimina e restituisce l’elemento di A con chiave minima.
+    \item \textbf{Decrease-Key(A, x, k):} Decrementa il valore della chiave di x ad un nuovo valore k (k deve essere $\leq$ dell’attuale valore della chiave di x).
+    \item \textbf{Heapify(A, i):} Assume che i sottoalberi sinistro e destro del nodo i siano degli heap. Se questo si verifica, il metodo sposta l’elemento A[i] lungo un cammino dell’albero in modo da ristabilire la proprietà di heap.
+\end{enumerate}
+
+% Prestazioni attese
+\section{Prestazioni attese}
+Il caso peggiore della complessità dell'algoritmo di \textbf{Kruskal} con implementazione Union-Find è \textbf{$O(E log V)$}, poichè è necessario ordinare gli archi, mentre per quanto riguarda \textbf{Prim} dipende dall'implementazione della struttura dati ausiliaria utilizzata: in questo caso avendo utilizzato le code con priorità il tempo totale di esecuzione è \textbf{asintoticamente uguale} a Kruskal.
+
+% Organigramma del progetto
+\section{Documentazione del progetto}
+Nel programma ho voluto prendere in considerazione il confronto tra l'algoritmo di Kruskal, l'algoritmo di Prim con l'utilizzo della libreria \textbf{heapq} e sempre l'algoritmo di Prim ma questa volta con l'utilizzo della struttura dati \textbf{min-heap} implementata a mano.
+Il programma è formato in totale da 5 files:
+\begin{enumerate}[label={\roman*.)}, ref={\roman*.)}]
+    \item \textbf{graph.py:} Nel file sono presenti le classi Node, Edge e Graph contenenti l'implementazione del grafo.
+    \item \textbf{kruskal.py:} Nel file sono presenti la classe UnionFind contente l'implementazione della medesima struttura dati e la classe Kruskal dove si applica l'algoritmo.
+    \item \textbf{primHeapq.py:} Nel file è presente la classe Prim dove si applica l'algoritmo con l'utilizzo della libreria heapq per implementare le code a priorità.
+    \item \textbf{primMinHeap.py:} Nel file è presente la classe Prim dove si applica l'algoritmo implementando (senza l'utilizzo di librerie) la struttura dati min-heap.
+    \item \textbf{main.py:} Nel file viene costruito il grafo e viene applicato il confronto tra i tre algoritmi.
+\end{enumerate}
+
+\clearpage
+
+Il progetto presenta quindi la seguente struttura:
+\begin{figure}[!hb]
+        \centering
+        \includegraphics[width=1\linewidth]{Project_UML.png}
+        \caption{Diagramma delle classi}
+        \label{fig:Project_UML}
+\end{figure}
+
+\subsection{Classi e metodi}
+\subsubsection{Classe Node}
+E' la classe che implementa il singolo nodo del grafo.
+I suoi attributi sono: value e neighbours (lista dei vicini di un nodo).
+Fornisce il metodo \textbf{addNeighbour} che aggiunge il vicino di un nodo.
+
+\subsubsection{Classe Edge}
+E' la classe che definisce l'arco.
+I suoi attributi sono: node1, node2 e weight (peso del nodo).
+
+\subsubsection{Classe Graph}
+E' la classe che implementa il grafo.
+Presenta l'attributo nodes, una lista contente i nodi. 
+Fornisce i seguenti metodi:
+\begin{itemize}
+    \item \textbf{addNode:} Inserisce un nuovo nodo nel grafo.
+    \item \textbf{findNode:} Ricerca un nodo nel grafo.
+    \item \textbf{areConnected:} Controlla se due nodi sono connessi tra di loro.
+    \item \textbf{addEdge:} Inserisce un arco nel grafo.
+\end{itemize}
+
+\subsubsection{Classe UnionFind}
+E' la classe che implementa la medesima struttura dati.
+Presenta gli attributi \textbf{parents} (un set che rappresenta un puntatore al padre di un nodo) e \textbf{groups} (rappresenta la dimensione della collezione, in particolare l'i-esimo elemento di \textit{parents} rappresenta il padre dell'i-esimo nodo).
+Fornisce i metodi \textit{union} e \textit{find} il cui approfondimento è già stato descritto nella \textit{sezione 2}.
+
+\subsubsection{Classe Kruskal}
+E' la classe che implementa l'algoritmo di Kruskal attraverso il metodo chiamato \textbf{mstKruskal}.
+
+\subsubsection{Classe PrimHeapq}
+E' la classe che implementa l'algoritmo di Prim attraverso l'utilizzo della libreria heapq.
+
+\subsubsection{Classe Heap}
+E' la classe che implementa la relativa struttura dati per implementare l'algoritmo di Prim.
+
+\subsubsection{Classe PrimMinHeap}
+E' la classe che implementa l'algoritmo di Prim utilizzando la struttura dati dell' Heap.
+
+\subsubsection{Classe Main}
+In questa  classe avviene la costruzione del grafo ed il confronto tra i tre algoritmi.
+Vedremo nella prossima sezione i risultati di tali esperimenti.
+
+\clearpage
+
+% Risultati Ottenuti
+\section{Risultati Sperimentali}
+Gli esperimenti sono stati effettuati su una sequenza crescente di nodi che ad ogni ciclo vengono generati ed inseriti randomicamente in un grafo (partendo da un minimo di 3 nodi).
+I nodi sono memorizzati in un array contententi ogni lettera dell'alfabeto, in totale quindi 26.
+I test sono stati eseguiti su un HP Pavilion DV6 le cui specifiche sono:\\
+\textit{Processore Intel(R) Core(TM) i5-2450M CPU @ 2.50GHz 3.10 GHz Dual-core Quad-thread\\}
+\textit{RAM 8 GB 1333 Mhz\\}
+\textit{Sistema Operativo EndeavourOS - kernel Linux\\}
+
+Le misurazioni effettuate riguardano il tempo di esecuzione degli algoritmi nella CPU e il numero di nodi del grafo in quel determinato ciclo.
+I vari test sono stati eseguiti molteplici volte in modo tale da verificare la costanza dei risultati.\\
+Nelle tabelle di seguito gli ultimi 3 test eseguiti (con l'asse delle ordinate contente i tempi espressi in \textbf{secondi}):
+\begin{figure}[!hb]
+        \centering
+        \includegraphics[width=0.8\linewidth]{Figure_1.png}
+        \caption{In rosso Kruskal ed in blu Prim}
+        \label{fig:KruskalvsPrim}
+\end{figure}
+
+\begin{figure}[!hb]
+        \centering
+        \includegraphics[width=0.8\linewidth]{Figure_2.png}
+        \caption{In rosso Kruskal ed in blu Prim}
+        \label{fig:KruskalvsPrim}
+\end{figure}
+
+\begin{figure}[!hb]
+        \centering
+        \includegraphics[width=0.8\linewidth]{Figure_3.png}
+        \caption{In rosso Kruskal ed in blu Prim}
+        \label{fig:KruskalvsPrim}
+\end{figure}
+
+\clearpage
+
+\subsection{Analisi dei risultati}
+Come possiamo vedere nei grafici in figura i risultati rimangono coerenti dopo ogni test, con tutti gli algoritmi che seguono un andamento logaritmico del tipo $y=f(xlog(n))$ che quindi confermano le prestazioni attese nella \textit{sezione 3}.
+Come dimostrato dai grafici, si può quindi evincere che \textbf{Prim con heapq} sia più \textbf{efficiente} di \textbf{Prim con min-heap} (data anche la probabile non ottima implementazione del codice) ma anche di Kruskal ed in particolare (\textit{Figura 2}) è possibile notare quanto quest'ultimo cresca più \textbf{velocemente} rispetto a Prim che invece tende ad essere più \textbf{costante} e crescere più \textbf{lentamente} nel tempo.
+E' interessante notare quanto la libreria \textit{heapq} sia molto ben ottimizzata, rispetto invece all'implementazione a codice del \textit{min-heap}.
+
+% Summary and Conclusions
+\section{Conclusione}
+In conclusione dagli esperimenti effettuati notiamo come nella totalità dei risultati \textbf{Prim con heapq} abbia la meglio tra i due algoritmi, questo ci farebbe pensare che quindi sia più conveniente utilizzarlo.
+Se di \textbf{pro}, l'algoritmo di Prim, ha \textbf{l'efficienza} dalla sua, non si può dire lo stesso sulla \textbf{difficoltà di implementazione}.
+Per questo \textbf{Kruskal} risulta alla fine dei conti essere più \textbf{efficace}, sia in termini di risultati, che essendo espressi in unità di tempo particolarmente piccole si riconosce essere ugualmente molto efficiente, sia in termini di facilità di implementazione dell'algoritmo.
+Solitamente, quello che si usa fare è utilizzare Kruskal quando il grafo è \textbf{rado}, cioè con un numero ridotto di archi, del tipo $E=O(V)$, quando gli archi sono già ordinati o se possiamo ordinarli in tempo lineare. Invece, utilizzare Prim quando il grafo è \textbf{denso}, cioè con un numero elevato di archi, come $E=O(V^{2})$. \\
+\textbf{Per riassumere}: l'algoritmo di Prim è significativamente più veloce al limite quando si ha un grafo molto denso con molti più archi che vertici, Kruskal, invece, si comporta meglio in situazioni più tipiche perché utilizza strutture dati più semplici.
+\end{document}
